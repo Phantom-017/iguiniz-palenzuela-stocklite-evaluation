@@ -31,6 +31,10 @@ export class Stock {
       .filter((p) => p.quantite < p.seuil)
       .map((p) => ({ ...p, critique: p.quantite === 0 }))
       .filter((p) => !seulementCritiques || p.critique);
+  alertes() {
+    return this.lister()
+      .filter((p) => p.quantite < p.seuil)
+      .sort((a, b) => a.quantite - b.quantite);
   }
 
   // Valeur totale du stock selon une table de prix { ref: prix }
