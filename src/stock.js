@@ -30,9 +30,17 @@ export class Stock {
   }
 
   // Produits en alerte : quantité inférieure ou égale au seuil
-  alertes() {
+  alertes({ seulementCritiques = false } = {}) {
     return this.lister()
       .filter((p) => p.quantite < p.seuil)
+      .map((p) => ({ ...p, critique: p.quantite === 0 }))
+      .filter((p) => !seulementCritiques || p.critique);
+  }
+  alertes({ seulementCritiques = false } = {}) {
+    return this.lister()
+      .filter((p) => p.quantite <= p.seuil)
+      .map((p) => ({ ...p, critique: p.quantite === 0 }))
+      .filter((p) => !seulementCritiques || p.critique)
       .sort((a, b) => a.quantite - b.quantite);
   }
 
